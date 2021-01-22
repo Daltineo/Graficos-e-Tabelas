@@ -1,0 +1,422 @@
+<html>	
+
+<head>
+<meta charset='UTF-8'/>
+<title> Rapadura que é doce não é mole não </title>
+</head>
+
+<!-- 
+Cosmo;Tarcisio;Juliane;Lucas;Pedro;Martha;Pedro Alvares Cabral; Marthinho
+1.55;F
+1.43;f
+1.67;m
+1.77;m
+1.88;f
+-->
+<style>
+
+body{
+background-image: url('https://i.pinimg.com/originals/4a/a5/61/4aa56122af7255286b3c759c408131a8.jpg');
+background-size: 130% 100%;
+}
+#inputs{
+width: 60vw;
+}
+
+
+#div1{
+position:relative;
+float:right;
+top:6vh;
+height:144vh;
+margin-right:2vw;
+}
+
+#campo1{
+position:relative;
+width: 35vw;
+height:8vh;
+font-family: glitch;
+font-size: 3vh	;
+}
+#campo2{
+position: relative;
+float:left;
+width: 35vw;
+height:8vh;
+font-family: glitch;
+font-size: 3vh	;
+}
+#submeter{
+box-shadow:inset -7px -4px 23px -15px #1c1b18;
+	background:linear-gradient(to bottom, #eae0c2 5%, #ccc2a6 100%);
+	background-color:#eae0c2;
+	border-radius:4px;
+	display:inline-block;
+	cursor:pointer;
+	color:#505739;
+	font-family:Arial;
+	font-size:14px;
+	font-weight:bold;
+	padding:13px 30px;
+	text-decoration:none;
+	margin-left: 2vw;
+}
+table, td, th {
+  border: 1px solid black;
+}
+table {
+  background-color: white;
+  width: 36vw;
+  border: 1px solid black;
+  font-family: Agency Fb;
+  font-size:1.6vw;
+  border-collapse: collapse;
+  box-shadow: 14px 14px 0px 1px rgba(0,0,0,0.75);
+}
+#tabela2{
+margin-top:5vh;
+}
+#tabela{
+
+}
+
+li{
+margin-top:5vh;
+list-style:none;
+}
+#grafico1{
+box-shadow: 14px 14px 0px 1px rgba(0,0,0,0.75);
+background-color: rgba(255,255,255,.99);
+height:70vh;
+width:50vw;
+margin-top:8vh;
+}
+#grafico2{
+box-shadow: 14px 14px 0px 1px rgba(0,0,0,0.75);
+background-color: rgba(255,255,255,.99);
+margin-top:4vh;
+height:70vh;
+width:50vw;
+}
+
+#grafico3{
+box-shadow: 14px 14px 0px 1px rgba(0,0,0,0.75);
+background-color: rgba(255,255,255,.99);
+margin-top:4vh;
+height:70vh;
+width:50vw;
+}
+
+</style>
+
+<body> 
+<div id='inputs'>
+
+<ol>
+
+<li>
+<input id='campo1' placeholder='Digite os nomes, separados por (;)' />
+<input id='submeter' onclick='fazerTabela1()' value='Pressione para gerar' type='submit'/> 
+</li>
+
+<li>
+<input id='campo2' placeholder='Digite altura e sexo' />
+<input id='submeter' onclick='fazerTabela2()' value='Pressione para gerar' type='submit'/>
+</li>
+
+</ol>
+</div>
+
+<div id='div1'>
+
+
+<table id='tabela'>
+
+<tr>  <td>  Nomes </td> <td> Qtd. Letras </td>  </tr>
+
+</table>
+
+<table id='tabela2'>
+
+<tr>  <td> Altura(Metros)</td> <td width='50%'> Sexo </td>  </tr>
+
+</table>
+</div>
+
+<div id='grafico1'>
+
+<canvas id='graficoNome'></canvas>
+
+</div>
+
+<div id='grafico2'>
+
+<canvas id='graficoMedia'></canvas>
+
+</div>
+
+<div id='grafico3'>
+
+<canvas id='graficoMediaG'></canvas>
+
+</div>
+
+</body>
+
+
+
+<script>
+
+var contadorN=0;
+function fazerTabela1(){
+let tabela = document.getElementById('tabela');
+let campo = document.getElementById('campo1').value;
+campo = campo.split(';');
+if(contadorN>=15){
+alert('Limite atingido');
+}
+else{
+for(i=0;i<campo.length;i++){
+contadorN++;
+let tr = document.createElement('tr');
+tr.innerHTML = '<td>'+campo[i]+'</td> <td>'+campo[i].length+' Letra(s)</td>';
+tabela.append(tr);
+chart1.data.labels.push(campo[i]);
+chart1.data.datasets[0].data.push(campo[i].length);
+chart1.update();
+}
+}
+}
+
+
+
+var contador=0;
+var mediaF=0;
+var contadorH=0;
+var contadorM=0;
+var maior=0;
+var menor=99999;
+
+//TUDO CERTO
+
+
+function fazerTabela2(){
+let tabela = document.getElementById('tabela2');
+let campo = document.getElementById('campo2').value;
+campo = campo.split(';');
+if(campo==''){
+alert('Digite alguma coisa para prosseguir');
+}
+
+else{
+contador++;
+if(campo[1].toUpperCase()=='F'){
+mediaF = parseFloat((mediaF + parseFloat(campo[0])));
+contadorM++;
+}
+if(campo[1].toUpperCase()=='M'){
+contadorH++;
+}
+if(parseFloat(campo[0])>maior){
+maior = parseFloat(campo[0]);
+}
+if(parseFloat(campo[0])<menor){
+menor = parseFloat(campo[0]);
+}
+
+if(contador>=8){
+alert('LIMITE ATINGIDO');
+let tr = document.createElement('tr');
+tr.innerHTML = '<td> Média Feminina: '+((mediaF/contadorM).toFixed(2))+',<br/> e um total de '+contadorH+' homen(s)</td> <td>Maior Número:'+(maior.toFixed(2))+',<br/> Menor número:'+(menor.toFixed(2))+'</td>';
+tabela.append(tr);
+
+}
+else{
+
+let tr = document.createElement('tr');
+tr.innerHTML = '<td>'+campo[0]+'</td> <td>'+campo[1].toUpperCase()+'</td>';
+tabela.append(tr);
+chart2.data.datasets[0].data[0] = contadorH;
+chart2.data.datasets[0].data[1] = contadorM;
+chart3.data.datasets[0].data[0] = ((mediaF/contadorM).toFixed(2));
+chart2.update();
+chart3.update();
+}
+}
+}
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+<script>
+
+function rgbaAleatorio() {
+    let o = Math.round, r = Math.random, s = 255;
+    return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',0.85)';
+}
+
+// Gráficos
+
+let ctx = document.getElementById('graficoNome').getContext('2d');
+let ctx2 = document.getElementById('graficoMedia').getContext('2d');
+let ctx3 = document.getElementById('graficoMediaG').getContext('2d');
+
+let chart1 = new Chart(ctx, {
+    type: 'bar',
+    data: {   
+        datasets: [
+            {
+                label: 'Nomes',
+				//Cores aleatorias do gráfico
+				backgroundColor: [
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				],
+				borderColor: 'rgba(0,0,0,0.8)',
+				borderWidth: 3
+            }
+        ]
+    },
+
+	options:{	
+
+	responsive: true,
+	maintainAspectRatio: false,
+	scales: {
+    yAxes : [{
+    ticks : {
+    max : 25,    
+    min : 1
+
+     }  }	]
+     },
+	title: {
+            display: true,
+			position:'left',
+            fontFamily: 'Courier New',
+			fontSize: 15,
+			text: 'Quantidade de letras'
+     }
+ },
+});
+
+
+let chart2 = new Chart(ctx2, {
+    type: 'doughnut',
+      data: {
+        labels: ['Homens','Mulheres'],
+                    
+        datasets: [
+            {
+                label: 'Crecimento Populacional',
+				backgroundColor: [
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				],
+				borderColor: 'rgba(0,0,0,0.8)',
+				borderWidth: 3
+            }
+        ]
+    },
+
+	options:{	
+	responsive: true,
+	maintainAspectRatio: false,
+	title: {
+            display: true,
+			position:'top',
+         	text: 'Quantidade de homens e mulheres'
+			}
+	 },
+
+}
+
+);
+
+let chart3 = new Chart(ctx3, {
+    type: 'bar',
+      data: {
+        labels: ['Média'],
+                    
+        datasets: [
+            {
+                label: 'Altura(m)',
+				backgroundColor: [
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				rgbaAleatorio(),rgbaAleatorio(),
+				],
+				borderColor: 'rgba(0,0,0,0.8)',
+				borderWidth: 3
+            }
+        ]
+    },
+
+	options:{	
+	responsive: true,
+	maintainAspectRatio: false,
+	title: {
+            display: true,
+			position:'top',
+         	text: 'Média altura das mulheres'
+			},
+    scales: {
+    yAxes : [{
+    ticks : {
+    max : 2.2,    
+    min : 1
+
+     }  }	]
+     }
+     }
+}
+
+);
+
+</script>
+
+
+</html>
